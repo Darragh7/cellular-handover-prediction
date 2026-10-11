@@ -10,7 +10,9 @@
 
 Final Year Project, BSc Computer Science, University College Cork (2026). Supervised by Prof. Holger Claussen and Dr. Kariem Fahmi. Awarded a **First Class (1.1)** grade.
 
-> **Showcase repository.** This repo holds a write-up, figures and a few short code excerpts. The full source code is kept private. See [Source code](#source-code) below.
+📄 **[Read the full report (PDF)](docs/Final_Report.pdf)**
+
+> **Showcase repository.** This repo holds the final report, a write-up, figures and a few short code excerpts. The full source code is kept private. See [Source code](#source-code) below.
 
 ---
 
@@ -115,7 +117,7 @@ The signal environment is not uniform: dense urban cells near Tara Street, spars
 
 ## Results
 
-All numbers below come from the dissertation (*Final Report*, Section 5) and the outputs of the final modelling notebook. None are estimates.
+All numbers below come from the dissertation ([*Final Report*](docs/Final_Report.pdf), Section 5) and the outputs of the final modelling notebook. None are estimates.
 
 ### Final model (tolerance-based MoE, *k* = 5, threshold 0.01)
 
@@ -194,6 +196,8 @@ These are short, cleaned-up excerpts from the private notebooks. They don't run 
 
 ## Source code
 
+The full write-up is available here: **[Final Report (PDF)](docs/Final_Report.pdf)**.
+
 **The full source code is kept private. It is available on request; contact me via https://darragh7.github.io**
 
 More of my work: [github.com/Darragh7](https://github.com/Darragh7)
@@ -202,4 +206,4 @@ The raw dataset and GPS traces are not published because they contain personal l
 
 ---
 
-© 2026 Darragh O'Keeffe. All rights reserved, shown for portfolio purposes only. Figures are taken from my dissertation. Map imagery © Google Earth (Data SIO, NOAA, U.S. Navy, NGA, GEBCO).
+© 2026 Darragh O'Keeffe. All rights reserved, shown for portfolio purposes only. Figures are taken from my dissertation ([Final Report](docs/Final_Report.pdf)). Map imagery © Google Earth (Data SIO, NOAA, U.S. Navy, NGA, GEBCO).
