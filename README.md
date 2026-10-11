@@ -1,6 +1,6 @@
 # Cellular Handover Prediction on Trains
 
-**An end-to-end ML pipeline that predicts LTE handover events on a moving train, using real phone/modem network logs merged with GPS, collected on Dublin's DART line.**
+**An end-to-end ML pipeline that predicts LTE handover events on a moving train, using real modem network logs merged with GPS, collected on Dublin's DART line.**
 
 ![Python](https://img.shields.io/badge/Python-3-blue?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-Mixture%20of%20Experts-ee4c2c?logo=pytorch&logoColor=white)
@@ -19,7 +19,7 @@ Final Year Project, BSc Computer Science, University College Cork (2026). Superv
 | | |
 |---|---|
 | **Problem** | Predict when a train passenger's cellular connection is about to hand over to a new cell, so traffic can be moved to a more stable link *before* the drop |
-| **Data** | I collected it myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. About **35,000** samples, **19** trip-instances |
+| **Data** | I collected all data myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. About **35,000** samples, **19** trip-instances |
 | **Model** | Mixture of Experts (5 experts + gating network) in PyTorch, with learned cell/modem embeddings |
 | **Evaluation** | Leave-one-trip-instance-out cross-validation (19 folds) |
 | **Headline result** | **99%** event detection rate, **94%** recall, **0.70** PR-AUC (random baseline 0.32) |
@@ -32,15 +32,13 @@ Passengers on trains expect working video calls, streaming and gaming, but a mov
 
 Train routes are **highly repeatable**: the same track, past the same base stations, every day. This project tests whether that structure, combined with live signal measurements, makes handovers **predictable** a few seconds in advance. A reliable early warning would let a multi-link system re-route or briefly duplicate latency-sensitive traffic on a link that is about to hand over.
 
-**Research question:** *Can handover events in a railway environment be predicted reliably using machine-learning models trained on signal, spatial and temporal data?*
-
 ---
 
 ## Data collection
 
 - **Route:** DART line from Tara Street to Howth and back, about 14 km, running from the dense city centre out to sparser coastal and suburban coverage.
 - **Network logs:** LTE modems logged about once per second (RSRP, RSRQ, SNR, signal quality, cell ID, tracking area code). Later sessions ran **three modems in parallel on three operators** (Vodafone, Three, Meteor). Each modem was treated as its own observation stream.
-- **Location:** an Android phone GPS logger recorded the track independently (GPX). Station arrival and departure times were also written down by hand to validate segmentation.
+- **Location:** an Android phone GPS logger recorded the track independently (GPX). Station arrival and departure times were also logged manualy to validate segmentation.
 - **Volume:** 9 valid journeys and 19 trip-instances (one trip on one modem), giving about 35,000 samples. About 4% of samples are handovers, so the classes are heavily imbalanced.
 
 ![Recorded route, Tara Street to Howth](docs/images/route_tara_howth.jpg)
