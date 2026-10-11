@@ -19,7 +19,7 @@ Final Year Project, BSc Computer Science, University College Cork (2026). Superv
 | | |
 |---|---|
 | **Problem** | Predict when a train passenger's cellular connection is about to hand over to a new cell, so traffic can be moved to a more stable link *before* the drop |
-| **Data** | I collected it myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. about **35,000** samples, **19** trip-instances |
+| **Data** | I collected it myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. About **35,000** samples, **19** trip-instances |
 | **Model** | Mixture of Experts (5 experts + gating network) in PyTorch, with learned cell/modem embeddings |
 | **Evaluation** | Leave-one-trip-instance-out cross-validation (19 folds) |
 | **Headline result** | **99%** event detection rate, **94%** recall, **0.70** PR-AUC (random baseline 0.32) |
