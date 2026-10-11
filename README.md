@@ -19,7 +19,7 @@ Final Year Project, BSc Computer Science, University College Cork (2026). Superv
 | | |
 |---|---|
 | **Problem** | Predict when a train passenger's cellular connection is about to hand over to a new cell, so traffic can be moved to a more stable link *before* the drop |
-| **Data** | I collected it myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. **30,541** merged samples, **19** trip-instances |
+| **Data** | I collected it myself: 9 DART journeys (Tara Street ⇄ Howth), up to 3 LTE modems on different operators, plus a GPS track. about **35,000** samples, **19** trip-instances |
 | **Model** | Mixture of Experts (5 experts + gating network) in PyTorch, with learned cell/modem embeddings |
 | **Evaluation** | Leave-one-trip-instance-out cross-validation (19 folds) |
 | **Headline result** | **99%** event detection rate, **94%** recall, **0.70** PR-AUC (random baseline 0.32) |
@@ -41,7 +41,7 @@ Train routes are **highly repeatable**: the same track, past the same base stati
 - **Route:** DART line from Tara Street to Howth and back, about 14 km, running from the dense city centre out to sparser coastal and suburban coverage.
 - **Network logs:** LTE modems logged about once per second (RSRP, RSRQ, SNR, signal quality, cell ID, tracking area code). Later sessions ran **three modems in parallel on three operators** (Vodafone, Three, Meteor). Each modem was treated as its own observation stream.
 - **Location:** an Android phone GPS logger recorded the track independently (GPX). Station arrival and departure times were also written down by hand to validate segmentation.
-- **Volume:** 9 valid journeys and 19 trip-instances (one trip on one modem), giving 30,541 samples after cleaning. About 4% of samples are handovers, so the classes are heavily imbalanced.
+- **Volume:** 9 valid journeys and 19 trip-instances (one trip on one modem), giving about 35,000 samples. About 4% of samples are handovers, so the classes are heavily imbalanced.
 
 ![Recorded route, Tara Street to Howth](docs/images/route_tara_howth.jpg)
 <sub>Route-level GPS overlay of the recorded line (report, Fig. 4). Raw traces and data are not published.</sub>
@@ -99,9 +99,7 @@ A handover is labelled whenever the **serving cell ID changes**, tracked separat
 A temporal feature domain was deliberately left out. Journeys vary in duration but not in distance, so the spatial features already capture where the train is along the route.
 
 ### 5. Problem formulation
-Four formulations were tried in turn: time-to-handover regression, "handover in the next 1 s", "handover at the next sample", and finally **tolerance-window classification**. In the tolerance formulation, a prediction counts if it fires within *k* = 5 samples **before** the handover, never after. This kept the operational value (an early warning) while making the target learnable.
-
-![Tolerance window labels](docs/images/tolerance_window_labels.png)
+Four formulations were tried in turn: time-to-handover regression, "handover in the next 1 s", "handover at the next sample", and finally **tolerance-window classification**. In the tolerance formulation, samples within a short window (*k* = 5 samples) around each upcoming handover are labelled positive, so the model is rewarded for flagging the conditions that lead into a handover rather than hitting its exact timestamp. This kept the operational value (an early warning) while making the target learnable.
 
 ### 6. The model: Mixture of Experts
 The signal environment is not uniform: dense urban cells near Tara Street, sparse coastal coverage near Howth. A **Mixture of Experts** lets a gating network weight 5 expert MLPs (256 → 128 → 1) differently for each sample, so experts can specialise in different regimes.
@@ -127,7 +125,7 @@ All numbers below come from the dissertation (*Final Report*, Section 5) and the
 |---|---|---|
 | **Event detection rate** | **0.99** | Report Table 5 / Sec. 5.2.4 |
 | **Recall** | **0.94** | Report Table 5 |
-| **Precision** | **0.45** | Report Table 5 (0.44 at the plotted operating point, Fig. 14) |
+| **Precision** | **0.45** | Report Table 5 |
 | **F1** | **0.60** | Report Table 5 |
 | **PR-AUC** | **0.70** (0.7038) | Report Table 5; notebook output |
 | Random-classifier PR baseline | 0.32 | Report Sec. 5.5 / Fig. 14 |
